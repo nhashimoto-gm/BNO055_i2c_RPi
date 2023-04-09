@@ -1,4 +1,4 @@
-# ADXL355_i2c_RPi
+# BNO055_i2c_RPi
 
 https://github.com/nhashimoto-gm/BNO055_i2c_RPi
 
