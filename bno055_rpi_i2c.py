@@ -286,40 +286,42 @@ class BNO055:
 
 
 if __name__ == '__main__':
-	bno = BNO055()
-	if bno.begin() is not True:
-		print("Error initializing device")
-		exit()
-	time.sleep(1)
-	bno.setExternalCrystalUse(True)
+    bno = BNO055()
+    if bno.begin() is not True:
+        print("Error initializing device")
+        exit()
+    time.sleep(1)
+    bno.setExternalCrystalUse(True)
 
-	while True:
-		try:
-#			print(bno.getVector(BNO055.VECTOR_GRAVITY))
-			bno_gr = bno.getVector(BNO055.VECTOR_GRAVITY)
-#			print(bno.getVector(BNO055.VECTOR_MAGNETOMETER))
-			bno_ma = bno.getVector(BNO055.VECTOR_MAGNETOMETER)
-#			print(bno.getVector(BNO055.VECTOR_GYROSCOPE))
-			bno_gy = bno.getVector(BNO055.VECTOR_GYROSCOPE)
-#			print(bno.getVector(BNO055.VECTOR_EULER))
-			bno_eu = bno.getVector(BNO055.VECTOR_EULER)
-#			input influxdb
-			wp_body = [
-								{"measurement": 
-	       							"bno055_measure_gravity","fields":
-										{"gr_x-axis":bno_gr[0],"gr_y-axis":bno_gr[1],"gr_z-axis":bno_gr[2]}},
-								{"measurement": 
-	       							"bno055_measure_magnetometer","fields":
-										{"ma_x-axis":bno_ma[0],"ma_y-axis":bno_ma[1],"ma_z-axis":bno_ma[2]}},
-								{"measurement": 
-	       							"bno055_measure_gyroscope","fields":
-										{"gy_x-axis":bno_gy[0],"gy_y-axis":bno_gy[1],"gr_z-axis":bno_gy[2]}},
-								{"measurement": 
-	       							"bno055_measure_euler","fields":
-										{"eu_x-axis":bno_eu[0],"eu_y-axis":bno_eu[1],"eu_z-axis":bno_eu[2]}}
-									]
-			client.write_points(wp_body)
-			time.sleep(0.08)
-		except KeyboardInterrupt:
-			print ("     Ctrl-C seen - exiting")
-			break
+    while True:
+        try:
+            # print(bno.getVector(BNO055.VECTOR_GRAVITY))
+            bno_gr = bno.getVector(BNO055.VECTOR_GRAVITY)
+            # print(bno.getVector(BNO055.VECTOR_MAGNETOMETER))
+            bno_ma = bno.getVector(BNO055.VECTOR_MAGNETOMETER)
+            # print(bno.getVector(BNO055.VECTOR_GYROSCOPE))
+            bno_gy = bno.getVector(BNO055.VECTOR_GYROSCOPE)
+            # print(bno.getVector(BNO055.VECTOR_EULER))
+            bno_eu = bno.getVector(BNO055.VECTOR_EULER)
+            # input influxdb
+            wp_body = [
+                {"measurement":
+                 "bno055_measure_gravity", "fields":
+                 {"gr_x-axis": bno_gr[0], "gr_y-axis":bno_gr[1], "gr_z-axis":bno_gr[2]}},
+                {"measurement":
+                 "bno055_measure_magnetometer", "fields":
+                 {"ma_x-axis": bno_ma[0], "ma_y-axis":bno_ma[1], "ma_z-axis":bno_ma[2]}},
+                {"measurement":
+                 "bno055_measure_gyroscope", "fields":
+                 {"gy_x-axis": bno_gy[0], "gy_y-axis":bno_gy[1], "gr_z-axis":bno_gy[2]}},
+                {"measurement":
+                 "bno055_measure_euler", "fields":
+                 {"eu_x-axis": bno_eu[0], "eu_y-axis":bno_eu[1], "eu_z-axis":bno_eu[2]}}
+            ]
+            client.write_points(wp_body)
+            time.sleep(0.08)
+        except OSError:
+            print("   OSError occurred!")
+        except KeyboardInterrupt:
+            print("   Ctrl-C seen - exiting")
+            break
