@@ -22,6 +22,8 @@ RaspberryPIにi2c接続で通信。
 
 (留意点) プルアップ抵抗は不要です。
 
+(留意点) OSErrorは受け流すことにしました。
+
 ## 注意
 LOCAL NETWORK上のInfluxdb v1.8サーバーへデータを送信。
 
